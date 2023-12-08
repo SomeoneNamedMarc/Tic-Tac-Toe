@@ -16,7 +16,7 @@ public class Main {
         System.out.println("What is player two's name?: ");
         playerTwo = input.nextLine();
         printBoard();
-        for (int i = 1; i <= turns; i++)
+        for (int i = 0; i < turns; i++)
         {
             if (i % 2 == 0)
             {
@@ -35,17 +35,17 @@ public class Main {
         Scanner input = new Scanner(System.in);
         System.out.printf("%n%s, it's your turn! Where do you wish to move?%n", player);
         System.out.print("x: ");
-        int moveOnXAxis = Integer.parseInt(input.nextLine());
+        int moveOnXAxis = checkInputForInt(input.nextLine());;
         System.out.print("y: ");
-        int moveOnYAxis = Integer.parseInt(input.nextLine());
+        int moveOnYAxis = checkInputForInt(input.nextLine());
 
         while (!checkIfSpaceClear(moveOnXAxis, moveOnYAxis))
         {
             System.out.println("That spot is taken");
             System.out.print("x: ");
-            moveOnXAxis = Integer.parseInt(input.nextLine());
+            moveOnXAxis = checkInputForInt(input.nextLine());
             System.out.print("y: ");
-            moveOnYAxis = Integer.parseInt(input.nextLine());
+            moveOnYAxis = checkInputForInt(input.nextLine());
         }
 
         board[moveOnYAxis-1][moveOnXAxis-1] = 'x';
@@ -55,17 +55,17 @@ public class Main {
         Scanner input = new Scanner(System.in);
         System.out.printf("%n%s, it's your turn! Where do you wish to move?%n", player);
         System.out.print("x: ");
-        int moveOnXAxis = Integer.parseInt(input.nextLine());
+        int moveOnXAxis = checkInputForInt(input.nextLine());
         System.out.print("y: ");
-        int moveOnYAxis = Integer.parseInt(input.nextLine());
+        int moveOnYAxis = checkInputForInt(input.nextLine());
 
         while (!checkIfSpaceClear(moveOnXAxis, moveOnYAxis))
         {
             System.out.println("That spot is taken");
             System.out.print("x: ");
-            moveOnXAxis = Integer.parseInt(input.nextLine());
+            moveOnXAxis = checkInputForInt(input.nextLine());
             System.out.print("y: ");
-            moveOnYAxis = Integer.parseInt(input.nextLine());
+            moveOnYAxis = checkInputForInt(input.nextLine());
         }
 
         board[moveOnYAxis-1][moveOnXAxis-1] = 'o';
@@ -84,4 +84,27 @@ public class Main {
             System.out.println("");
         }
     }
+
+    private static int checkInputForInt(String str)
+    {
+        Scanner input = new Scanner(System.in);
+        while (!isInt(str) || Integer.parseInt(str) > 3 || Integer.parseInt(str) < 1)
+        {
+            System.out.println("You have to input a number within the parameters.");
+            str = input.next();
+        }
+        return Integer.parseInt(str);
+    }
+
+    public static boolean isInt(String str)
+    {
+        if (str == null) return false;
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 }
