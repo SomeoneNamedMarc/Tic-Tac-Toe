@@ -3,13 +3,14 @@ import java.util.Scanner;
 public class Main {
 
     static char[][] board = {{'_','_','_'},{'_','_','_'},{'_','_','_'}};
+    static String playerOne = "";
+    static String playerTwo = "";
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
         int turns = 6;
-        String playerOne = "";
-        String playerTwo = "";
+
 
         System.out.println("What is player one's name?: ");
         playerOne = input.nextLine();
@@ -20,18 +21,18 @@ public class Main {
         {
             if (i % 2 == 0)
             {
-                playerOneTurn(playerOne);
+                playerTurn(playerOne);
             }
             else
             {
-                playerTwoTurn(playerTwo);
+                playerTurn(playerTwo);
             }
 
             printBoard();
         }
     }
 
-    private static void playerOneTurn(String player) {
+    private static void playerTurn(String player) {
         Scanner input = new Scanner(System.in);
         System.out.printf("%n%s, it's your turn! Where do you wish to move?%n", player);
         System.out.print("x: ");
@@ -47,29 +48,12 @@ public class Main {
             System.out.print("y: ");
             moveOnYAxis = checkInputForInt(input.nextLine());
         }
-
-        board[moveOnYAxis-1][moveOnXAxis-1] = 'x';
+        if (player.equals(playerOne))
+            board[moveOnYAxis-1][moveOnXAxis-1] = 'x';
+        else
+            board[moveOnYAxis-1][moveOnXAxis-1] = 'o';
     }
 
-    private static void playerTwoTurn(String player) {
-        Scanner input = new Scanner(System.in);
-        System.out.printf("%n%s, it's your turn! Where do you wish to move?%n", player);
-        System.out.print("x: ");
-        int moveOnXAxis = checkInputForInt(input.nextLine());
-        System.out.print("y: ");
-        int moveOnYAxis = checkInputForInt(input.nextLine());
-
-        while (!checkIfSpaceClear(moveOnXAxis, moveOnYAxis))
-        {
-            System.out.println("That spot is taken");
-            System.out.print("x: ");
-            moveOnXAxis = checkInputForInt(input.nextLine());
-            System.out.print("y: ");
-            moveOnYAxis = checkInputForInt(input.nextLine());
-        }
-
-        board[moveOnYAxis-1][moveOnXAxis-1] = 'o';
-    }
 
     private static boolean checkIfSpaceClear(int x, int y) {
         return board[y-1][x-1] == '_';
