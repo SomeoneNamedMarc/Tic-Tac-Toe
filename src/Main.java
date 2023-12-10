@@ -9,13 +9,27 @@ public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        int turns = 6;
-
 
         System.out.println("What is player one's name?: ");
         playerOne = input.nextLine();
         System.out.println("What is player two's name?: ");
         playerTwo = input.nextLine();
+
+        while (true)
+        {
+            playGame();
+            System.out.println("Do you wish to rematch? (0: no, 1: yes)");
+            if (checkInputForInt(input.nextLine(), 0) != 1)
+            {
+                break;
+            }
+            board = new char[][]{{'_', '_', '_'}, {'_', '_', '_'}, {'_', '_', '_'}};
+        }
+    }
+
+    private static void playGame()
+    {
+        int turns = 6;
         printBoard();
         for (int i = 0; i < turns; i++)
         {
@@ -31,22 +45,21 @@ public class Main {
             printBoard();
         }
     }
-
     private static void playerTurn(String player) {
         Scanner input = new Scanner(System.in);
         System.out.printf("%n%s, it's your turn! Where do you wish to move?%n", player);
         System.out.print("x: ");
-        int moveOnXAxis = checkInputForInt(input.nextLine());;
+        int moveOnXAxis = checkInputForInt(input.nextLine(), 1);
         System.out.print("y: ");
-        int moveOnYAxis = checkInputForInt(input.nextLine());
+        int moveOnYAxis = checkInputForInt(input.nextLine(), 1);
 
         while (!checkIfSpaceClear(moveOnXAxis, moveOnYAxis))
         {
             System.out.println("That spot is taken");
             System.out.print("x: ");
-            moveOnXAxis = checkInputForInt(input.nextLine());
+            moveOnXAxis = checkInputForInt(input.nextLine(),1);
             System.out.print("y: ");
-            moveOnYAxis = checkInputForInt(input.nextLine());
+            moveOnYAxis = checkInputForInt(input.nextLine(),1);
         }
         if (player.equals(playerOne))
             board[moveOnYAxis-1][moveOnXAxis-1] = 'x';
@@ -69,13 +82,24 @@ public class Main {
         }
     }
 
-    private static int checkInputForInt(String str)
+    private static int checkInputForInt(String str, int checkCode)
     {
         Scanner input = new Scanner(System.in);
-        while (!isInt(str) || Integer.parseInt(str) > 3 || Integer.parseInt(str) < 1)
+        if (checkCode == 1)
         {
-            System.out.println("You have to input a number within the parameters.");
-            str = input.next();
+            while (!isInt(str) || Integer.parseInt(str) > 3 || Integer.parseInt(str) < 1)
+            {
+                System.out.println("You have to input a number within the parameters.");
+                str = input.next();
+            }
+        }
+        else
+        {
+            while (!isInt(str) || Integer.parseInt(str) > 1 || Integer.parseInt(str) < 0)
+            {
+                System.out.println("You have to input a number within the parameters.");
+                str = input.next();
+            }
         }
         return Integer.parseInt(str);
     }
